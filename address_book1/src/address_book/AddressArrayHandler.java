@@ -1,7 +1,7 @@
 package address_book;
 
 /**
- * 주소록 최대 5개만 저장할 수 있는 주소록
+ * 주소록 최대 5개만 저장할 수 있는 주소록 ㄹㄹ
  * @author User
  */
 public class AddressArrayHandler {
