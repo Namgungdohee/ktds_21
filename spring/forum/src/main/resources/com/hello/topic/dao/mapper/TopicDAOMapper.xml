@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Topic">
+
+	<resultMap id="topicMap" type="com.hello.topic.vo.TopicVO" autoMapping="true">
+		<!-- PK 컬럼, 일반 컬럼 구분 지정 -->
+		<!-- PK 컬럼 -->
+		<!-- property: 변수명 -->
+		<!-- column: 컬럼명 -->
+		<id property="id" column="ID"/>
+		<!-- 일반 컬럼 -->
+		<!-- MemberVO 설정 -->
+		<association property="memberVO" javaType="com.hello.member.vo.MemberVO" autoMapping="true">
+			<id property="email" column="EMAIL"/>
+		</association>
+		<!-- List<ReplyVO> 설정 -->
+		<collection property="replyList" ofType="com.hello.reply.vo.ReplyVO" autoMapping="true">
+			<id property="replyId" column="REPLY_ID"/>
+			<result property="email" column="R_EMAIL"/>
+			<result property="crtDt" column="R_CRT_DT"/>
+			<result property="mdfyDt" column="R_MDFY_DT"/>
+			<!--  ReplyVO의 MemberVO 설정 -->
+			<association property="memberVO"
+						 javaType="com.hello.member.vo.MemberVO"
+						 autoMapping="true">
+				<id property="email" column="R_EMAIL"/>
+				<result property="name" column="R_NAME"/>
+			</association>
+		</collection>
+	</resultMap>
+
+	<select id="readAllTopics"
+			resultMap="topicMap">
+		SELECT B.ID
+			 , B.SUBJECT
+			 , B.CONTENT
+			 , B.EMAIL
+			 , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , M.NAME
+			 , R.REPLY_ID
+			 , R.TOPIC_ID
+			 , R.REPLY
+			 , R.EMAIL R_EMAIL
+			 , R.CRT_DT R_CRT_DT
+			 , R.MDFY_DT R_MDFY_DT
+			 , R.PRNT_REPLY_ID
+			 , RM.NAME R_NAME
+		  FROM BOARD B
+		 INNER JOIN MEMBERS M
+		 	ON B.EMAIL = M.EMAIL
+		  LEFT OUTER JOIN REPLIES R
+		    ON B.ID = R.TOPIC_ID
+		  LEFT OUTER JOIN MEMBERS RM
+		    ON R.EMAIL = RM.EMAIL
+		 ORDER BY B.MDFY_DT DESC
+	</select>
+	
+	<select id="readOneTopicByTopicId"
+			parameterType="_int"
+			resultMap="topicMap">
+		SELECT LEVEL -1 DEPTH
+			 , B.ID
+			 , B.SUBJECT
+			 , B.CONTENT
+			 , B.EMAIL
+			 , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , M.NAME
+			 , R.REPLY_ID
+			 , R.TOPIC_ID
+			 , R.REPLY
+			 , R.EMAIL R_EMAIL
+			 , R.CRT_DT R_CRT_DT
+			 , R.MDFY_DT R_MDFY_DT
+			 , R.PRNT_REPLY_ID
+			 , RM.NAME R_NAME
+		  FROM BOARD B
+		 INNER JOIN MEMBERS M
+		 	ON B.EMAIL = M.EMAIL
+		  LEFT OUTER JOIN REPLIES R
+		    ON B.ID = R.TOPIC_ID
+		  LEFT OUTER JOIN MEMBERS RM
+		    ON R.EMAIL = RM.EMAIL
+	  WHERE B.ID = #{_parameter}
+	  START WITH R.PRNT_REPLY_ID = 0
+	     OR R.PRNT_REPLY_ID IS NULL
+    CONNECT BY PRIOR R.REPLY_ID=R.PRNT_REPLY_ID
+
+	</select>
+	
+	<insert id="createNewTopic"
+			parameterType="com.hello.topic.vo.TopicVO">
+		<selectKey keyProperty="id" resultType="_int" order="BEFORE">
+			SELECT SEQ_BOARD_PK.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD
+			 (ID
+			, SUBJECT
+			, CONTENT
+			, EMAIL
+			, CRT_DT
+			, MDFY_DT)
+		VALUES
+		( #{id}
+		, #{subject}
+		, #{content}
+		, #{email}
+		, SYSDATE
+		, SYSDATE)
+		
+	</insert>
+	
+	<update id="updateOneTopic"
+			parameterType="com.hello.topic.vo.TopicVO">
+		UPDATE BOARD.BOARD
+		   SET SUBJECT = #{subject}
+		     , CONTENT = #{content}
+		     , MDFY_DT = SYSDATE
+		 WHERE ID = #{id}
+	</update>
+	
+	<delete id="deleteOneTopicById"
+			parameterType="_int">
+		DELETE
+		  FROM BOARD.BOARD
+		 WHERE ID = #{_parameter}
+	</delete>
+	
+</mapper>
