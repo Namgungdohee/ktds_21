@@ -16,7 +16,7 @@
 <body>
 	
 	<a href="${pageContext.request.contextPath}/topics">
-		<img src="${pageContext.request.contextPath}/img/temp/Instagram-Icon.png" style="width:20px; height:20px;"/>
+		<img src="${pageContext.request.contextPath}/img/Instagram-Icon.png" style="width:200px; height:200px;"/>
 	</a>
 
 	<h1>Topics</h1>

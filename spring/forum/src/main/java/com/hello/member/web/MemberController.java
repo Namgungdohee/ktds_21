@@ -68,12 +68,48 @@ public class MemberController {
 	@PostMapping("/member/regist")
 	public String doMemberRegist(MemberVO memberVO) {
 		
+		String email = memberVO.getEmail();
+		String name = memberVO.getName();
+		String password = memberVO.getPassword();
+		String passwordConfirm = memberVO.getPasswordConfirm();
+
+		if(email == null || email.trim().length() == 0) {
+			throw new RuntimeException("email은 필수 값 입니다.");
+		}
+		if(name == null || name.trim().length() == 0) {
+			throw new RuntimeException("name은 필수 값 입니다.");
+		}
+		if(password == null || password.trim().length() == 0) {
+			throw new RuntimeException("password는 필수 값 입니다.");
+		}
+		if(passwordConfirm == null || passwordConfirm.trim().length() == 0) {
+			throw new RuntimeException("passwordConfirm은 필수 값 입니다.");
+		}
+		if (email.trim().length() > 100) {
+			throw new RuntimeException("email은 100글자까지 작성할 수 있습니다.");
+		}
+		if (name.trim().length() > 10) {
+			throw new RuntimeException("name은 10글자까지 작성할 수 있습니다.");
+		}
+		if (password.trim().length() > 10) {
+			throw new RuntimeException("password은 10글자까지 작성할 수 있습니다.");
+		}
+		if (passwordConfirm.trim().length() > 10) {
+			throw new RuntimeException("passwordConfirm은 10글자까지 작성할 수 있습니다.");
+		}
+		if (!password.equals(passwordConfirm)) {
+			throw new RuntimeException("password가 일치하지 않습니다.");
+		}
+		
+		
 		boolean isSuccess = memberService.createNewMember(memberVO);
 		
 		// System.out.println("회원 등록 성공 여부: " + isSuccess);
 		logger.debug("회원 등록 성공여부: {}", isSuccess);
 		
 		return "redirect:/member/regist";
+		
+		
 	}
 	
 }

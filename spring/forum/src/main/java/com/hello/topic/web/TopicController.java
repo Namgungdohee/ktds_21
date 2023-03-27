@@ -29,9 +29,6 @@ public class TopicController {
 	@Autowired
 	private TopicService topicService;
 	
-	@Autowired
-	private UploadHandler uploadHandler;
-	
 	@Value("${upload.path}")
 	private String uploadPath;
 	
@@ -47,8 +44,6 @@ public class TopicController {
 		// System.out.println("URL 변수 topicId의 값" + topicId);
 		logger.info("URL 변수 topicId의 값: {}", topicId);
 		
-		Integer.parseInt("ABC");
-		
 		TopicVO topic = topicService.readOneTopicByTopicID(topicId);
 		model.addAttribute("topic", topic);
 		
@@ -63,8 +58,8 @@ public class TopicController {
 	@PostMapping("/topic/write")
 	public String doTopicWrite(TopicVO topicVO, List<MultipartFile> uploadFile) {
 
-		boolean createResult = topicService.createNewTopic(topicVO);
-		uploadHandler.upload(uploadFile, topicVO.getId());
+		boolean createResult = topicService.createNewTopic(topicVO, uploadFile);
+//		uploadHandler.upload(uploadFile, topicVO.getId());
 		
 		if(!createResult) {
 			return "topic/write";
