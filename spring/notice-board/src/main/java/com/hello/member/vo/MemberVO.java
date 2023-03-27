@@ -3,9 +3,7 @@ package com.hello.member.vo;
 public class MemberVO {
 	
 	private String email;
-	
 	private String username;
-	
 	private String password;
 	
 	public String getEmail() {
