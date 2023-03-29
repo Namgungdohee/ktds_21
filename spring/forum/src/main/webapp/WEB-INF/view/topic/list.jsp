@@ -15,6 +15,7 @@
 </head>
 <body>
 	
+	<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 	<a href="${pageContext.request.contextPath}/topics">
 		<img src="${pageContext.request.contextPath}/img/Instagram-Icon.png" style="width:200px; height:200px;"/>
 	</a>

@@ -3,6 +3,7 @@ package com.hello.member.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hello.common.exception.AjaxResponseException;
 import com.hello.member.dao.MemberDAO;
 import com.hello.member.vo.MemberVO;
 
@@ -23,12 +24,16 @@ public class MemberServiceImpl implements MemberService {
 			insertCount = memberDAO.createNewMember(memberVO);
 		}
 		else {
-			throw new RuntimeException("이미 존재하는 아이디 입니다!!!");
+			throw new AjaxResponseException("이미 존재하는 아이디 입니다!!!");
 		}
 		// 3. 있다면 false를 리턴한다.
 		return insertCount > 0;
 	}
 
+	public int readCountMemberByEmail(String email) {
+		return memberDAO.readCountMemberByEmail(email);
+	}
+	
 	@Override
 	public MemberVO readOneMemberByEmailAndPassword(MemberVO memberVO) {
 		return memberDAO.readOneMemberByEmailAndPassword(memberVO);

@@ -13,7 +13,7 @@
 	});</script>
 </head>
 <body>
-	<img src="${pageContext.request.contextPath}/img/temp/Instagram-Icon.png" style="width:20px; height:20px;"/>
+	<img src="${pageContext.request.contextPath}/img/Instagram-Icon.png" style="width:200px; height:200px;"/>
 
 	<form action="${pageContext.request.contextPath}/topic/write" method="post" enctype="multipart/form-data">
 	
@@ -35,10 +35,6 @@
 				   name="uploadFile"
 				   id="uploadFile"
 				   placeholder="파일을 선택하세요.">
-		</div>
-		<div>
-			<label for="subject">이메일</label>
-			<input type="email" name="email" id="email" placeholder="이메일"/>
 		</div>
 		<div>
 			<label for="content">내용</label>

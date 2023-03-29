@@ -1,9 +1,12 @@
 package com.hello.member.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -17,6 +20,50 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("/member/login")
+	public String viewLoginPage() {
+		return "member/login";
+	}
+	
+	@GetMapping("/member/logout")
+	public String doLogout(HttpSession session) {
+		
+		// Logout
+		session.invalidate();
+	
+		return "redirect:/member/login";
+	}
+	
+	@PostMapping("/member/login")
+	public String doLogin(MemberVO memberVO, HttpSession session, Model model) {
+		if (memberVO.getEmail() == null || memberVO.getEmail().length() == 0) {
+			throw new RuntimeException("email은 필수 값 입니다.");
+		}
+		if (memberVO.getPassword() == null || memberVO.getPassword().length() == 0 ) {
+			throw new RuntimeException("password는 필수 값 입니다.");
+		}
+		
+			// TODO 로그인 처리
+			// 회원 데이터 조회
+			MemberVO memberData = memberService.readOneMemberByEmailAndPassword(memberVO);
+			
+			// 회원 데이터가 있는지 확인
+			if(memberData != null) {
+				// 로그인 성공!
+				// 세션에 데이터 저장
+				session.setAttribute("__USER_SESSION_DATA__", memberData);
+			}
+			else {
+				// 로그인 실패!
+				model.addAttribute("errorCode", "NOT_FOUND_USER");
+				return "member/login";
+			}
+			
+			// TODO 로그인 실패시 (이메일 또는 비밀번호가 틀렸을 때) 처리
+		
+		return "redirect:/topics";
+	}
 	
 	@GetMapping("/member/regist")
 	public String viewMemberRegistPage() {

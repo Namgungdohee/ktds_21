@@ -14,10 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hello.common.handler.DownloadUtil;
-import com.hello.common.handler.UploadHandler;
+import com.hello.member.vo.MemberVO;
 import com.hello.topic.service.TopicService;
 import com.hello.topic.vo.TopicVO;
 
@@ -56,8 +57,10 @@ public class TopicController {
 	}
 	
 	@PostMapping("/topic/write")
-	public String doTopicWrite(TopicVO topicVO, List<MultipartFile> uploadFile) {
+	public String doTopicWrite(TopicVO topicVO, List<MultipartFile> uploadFile, @SessionAttribute("__USER_SESSION_DATA__") MemberVO memberVO) {
 
+		topicVO.setEmail(memberVO.getEmail());
+		
 		boolean createResult = topicService.createNewTopic(topicVO, uploadFile);
 //		uploadHandler.upload(uploadFile, topicVO.getId());
 		
@@ -81,13 +84,16 @@ public class TopicController {
 	@GetMapping("/topic/update/{topicId}")
 	public String viewTopicUpdatePage(@PathVariable int topicId, Model model) {
 		TopicVO topic = topicService.readOneTopicByTopicID(topicId);
+		
 		model.addAttribute("topic", topic);
 		return"topic/update";
 	}
 	
 	@PostMapping("/topic/update/{topicId}")
-	public String doTopicUpdate(@PathVariable int topicId, TopicVO topicVO) {
+	public String doTopicUpdate(@PathVariable int topicId, TopicVO topicVO, @SessionAttribute("__USER_SESSION_DATA__") MemberVO memberVO) {
 		topicVO.setId(topicId);
+		topicVO.setEmail(memberVO.getEmail());
+		
 		boolean updateResult = topicService.updateOneTopic(topicVO);
 		
 		if(updateResult) {
