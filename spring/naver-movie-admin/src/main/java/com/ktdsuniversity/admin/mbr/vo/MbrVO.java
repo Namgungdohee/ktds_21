@@ -5,69 +5,31 @@ package com.ktdsuniversity.admin.mbr.vo;
  */
 public class MbrVO {
 
-	/**
-	 * 
-	 */
+
 	private String mbrId;
 
-	/**
-	 * 
-	 */
 	private String mbrNm;
 
-	/**
-	 * 
-	 */
 	private String pwd;
 
-	/**
-	 * 
-	 */
 	private String crtDt;
 
-	/**
-	 * 
-	 */
 	private String useYn;
 
-	/**
-	 * 
-	 */
 	private String lstLgnDt;
 
-	/**
-	 * 
-	 */
 	private String lstLgnIp;
 
-	/**
-	 * 
-	 */
 	private int lgnTryCnt;
 
-	/**
-	 * 
-	 */
 	private String lgnBlockYn;
 
-	/**
-	 * 
-	 */
 	private String lstLgnFailDt;
 
-	/**
-	 * 
-	 */
 	private String pwdSalt;
 
-	/**
-	 * 
-	 */
 	private String lstPwdChngDt;
 
-	/**
-	 * 
-	 */
 	private String admYn;
 
 

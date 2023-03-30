@@ -17,10 +17,10 @@
 		$("#login_btn").click(function() {
 			
 			var data = {
-					mbrId: $("mbrId").val(),
-					pwd: $("pwd").val()
+					mbrId: $("#mbrId").val(),
+					pwd: $("#pwd").val()
 			};
-			$.post("${context}/api/mbr/lgn", data, function(response)) {
+			$.post("${context}/api/mbr/lgn", data, function(response) {
 				// Response Spec
 				/* {
 					status: "200 OK",
@@ -32,6 +32,10 @@
 					if(response.redirectURL) {
 						location.href="${context}" + response.redirectURL;
 					}
+				}
+				else if (response.status == "400") {
+					// 파라미터 전달을 하지 않은 경우
+					alert(response.message);
 				}
 				else {
 					alert(response.errorCode + "/" + response.message);
@@ -59,7 +63,7 @@
 				<input type="password" id="pwd" placeholder="Password" name="pwd"/> 
 			</div>
 			<div class="align-right">
-				<button class="btn_primary" id="loging_btn">로그인</button>		
+				<button class="btn_primary" id="login_btn">로그인</button>		
 			</div>
 		</div>	
 	</div>

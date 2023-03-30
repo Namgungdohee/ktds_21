@@ -5,7 +5,7 @@ body {
 }
 
 * {
-	font-size: 12px;
+	font-size: 8pt;
 	color: #333;
 }
 
@@ -45,21 +45,51 @@ body {
 	display: inline-block;
 	width: 60px;
 	background-color: #F0F0F0;
+	height: 23px;
+    vertical-align: top;
 }
 
 .input-group > input {
 	border: 1px solid #999;
 	border-radius: 3px;
 	padding: 5px;
+	width: 300px;
+}
+
+.input-group > input [type=disabled]{
+	border: 1px solid #999;
+	border-radius: 3px;
+	padding: 5px;
+	width: 300px;
+	margin: 0px;
+}
+
+.input-group > input [type=checkbox]{
+	backgroud-color: #999;
 }
 /* Buttons */
-btn-primary {
-	background-color: #4242ff;
+.btn-primary {
+	background-color: #f7abc2;
 	color: #FFF;
 	border: none;
 	border-radius: 3px;
-	font-size: 10px;
+	font-size: 10pt;
 	padding: 5px;
+}
+.btn-delete {
+	background-color: #ff4246;
+	color: #FFF;
+	border: none;
+	border-radius: 3px;
+	font-size: 10pt;
+	padding: 5px;
+}
+
+.btn-primary:active {
+	background-color: #ffe0e9;
+}
+.btn-delete:active {
+	background-color: #ff9f9f;
 }
 
 /* Login */
@@ -73,4 +103,155 @@ btn-primary {
 	margin: 0px;
 	padding: 0px;
 	margin-bottom: 10px;
+}
+
+/* Main Layouts */
+.main-layout > .header {
+	height: 70px;
+	padding: 10px;
+	position: relative;
+}
+
+.bg-black {
+	background-color: #fbf0f0;
+}
+
+.main-layout >.header > .nav {
+	display: inline-block;
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;	
+	position: absolute;
+	bottom: 10px;
+}
+
+.main-layout > .header > .nav > .nav-item,
+.main-layout > .header > .nav > .nav-item > a {
+	display: inline-block;
+	padding: 0px;
+	margin: 0px;
+	color: #959393;
+	text-decoration: none;
+}
+
+.main-layout > .header > .nav > .active {
+	font-weigth: bold;
+	color: #959393;
+}
+
+.main-layout > .header > .profile {
+	color: #ffb4b4;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.inline {
+	display: inline-block;
+}
+
+.main-layout > div > .side-menu {
+	width: 150px;
+	position: fixed;
+	top: 90px;
+	bottom: 0px;
+}
+
+.main-layout > div > .side-menu > .menu-list {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+
+.main-layout > div > .side-menu > .menu-list > .menu-item {
+	color: #959393;
+	padding-top: 10px;
+	padding-left: 10px;
+}
+
+.main-layout > div > .side-menu > .menu-list > .menu-item:last-child {
+	padding-bottom: 10px;
+}
+
+.main-layout > div > .content {
+	position: fixed;
+	top: 90px;
+	bottom: 0px;
+	left: 150px;
+	right: 0px;
+	overflow: auto;
+	padding: 10px;
+}
+
+/* Grid */
+.content > .path {
+	padding: 15px;
+	background-color: #ffd1d1;
+	margin-bottom: 10px;
+}
+
+.content .grid {}
+
+.content .grid > .grid-count {
+	font-size:10px;
+}
+
+.content .grid > table {
+	border-collapse: collapse;
+	border: 1px solid #ddd;
+	width: 100%;
+}
+
+.content .grid > table > thead > tr {
+	background-color: #eee;
+}
+
+.content .grid > table > thead > tr > th {
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 3px;
+	font-size:5pt;
+}
+
+.content .grid > table > thead > tr > th:first-child {
+	border-left: 0px;
+}
+
+.content .grid > table > tbody > tr:hover {
+	background-color: #f3f3f3;
+}
+
+.content .grid > table > tbody > tr > td {
+	padding: 5px;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+.content .grid > table > tbody > tr > td:first-child {
+	border-left: 0px;
+}
+
+.content .grid > table > thead > tr > td {
+	padding: 3px;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+.content .grid > table > thead > tr > td:first-child {
+	border-left: 0px;
+}
+
+.content .grid .no-items {
+	text-align: center;
+}
+
+.content .grid-detail {
+	margin-top: 10px;
+}
+
+.content .grid-detail:before {
+	content: "상세정보";
+	font-size: 13pt;
+	font-weight: bold;
+	margin-top: 10px;
 }
