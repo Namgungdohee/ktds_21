@@ -75,9 +75,35 @@
 			});
 		});
 		
+		$("#mbrId").keyup(function() {
+			
+			var that = this;
+			var value = $(that).val();
+			value = $.trim(value);
+			
+			if (value == "") {
+				return;
+			}
+			else {
+				$.get("${context}/api/mbr/dup/" + value, function(response) {
+					if(response.status == "200 OK") {
+						$(that).css("backgroundColor", "#CEFBC9");
+					}
+					else if (response.status == "500") {
+						$(that).css("backgroundColor", "#FFD8D8");
+					}
+				});
+			}
+		});
+		
 		$("#save_btn").click(function() {
 			
 			if ( $("#isModify").val() == "false") {
+				var bgColor = $("#mbrId").css("backgroundColor");
+				if (bgColor != "rgb(139, 252, 145)") {
+					alert("이미 사용중인 ID 입니다.");
+					return;
+				}
 				// 신규등록
 				$.post("${context}/api/mbr/create", $("#detail_form").serialize(), function(response) {
 					
@@ -85,7 +111,7 @@
 						location.reload(); // 새로고침
 					}
 					else {
-						alert(response.errorCode + " / " + response.message);
+						alert(response.status == "500");
 					}
 				});
 			}

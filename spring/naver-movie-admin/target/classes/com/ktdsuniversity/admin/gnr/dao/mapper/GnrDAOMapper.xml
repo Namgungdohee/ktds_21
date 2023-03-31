@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Gnr">
+
+	<select id ="readAllGnrVO"
+			parameterType="string"
+			resultType="com.ktdsuniversity.admin.gnr.vo.GnrVO">
+			SELECT G.GNR_ID
+			     , G.GNR_NM
+			     , TO_CHAR(G.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			     , G.CRTR
+			     , TO_CHAR(G.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			     , G.MDFYR
+			     , G.USE_YN
+			     , CRT_M.MBR_NM CRT_MBR_NM
+			     , MDFY_M.MBR_NM MDFY_MBR_NM
+			  FROM GNR G
+			 INNER JOIN MBR CRT_M
+			    ON G.CRTR = CRT_M.MBR_ID
+			 INNER JOIN MBR MDFY_M
+			    ON G.MDFYR = MDFY_M.MBR_ID
+			 WHERE G.DEL_YN = 'N'
+			  <if test='_parameter != null and _parameter != ""'>
+			   AND G.GNR_NM = #{_parameter}
+			</if>
+			 ORDER BY G.GNR_ID ASC
+	</select>
+	
+	<insert id="createOneGnr"
+			parameterType="com.ktdsuniversity.admin.gnr.vo.GnrVO">
+			INSERT INTO GNR
+			  (GNR_ID
+			 , GNR_NM
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , DEL_YN
+			 , USE_YN)
+				VALUES
+			   (SEQ_GNR_PK.NEXTVAL
+			   , #{gnrNm}
+			   , SYSDATE
+			   , #{crtr}
+			   , SYSDATE
+			   , #{mdfyr}
+			   , 'N'
+			   , NVL(#{useYn}, 'N') )
+			
+	</insert>
+	
+	<update id="updateOneGnr"
+			parameterType="com.ktdsuniversity.admin.gnr.vo.GnrVO">
+			UPDATE GNR
+			   SET MDFY_DT = SYSDATE
+			     , MDFYR = #{mdfyr}
+			     , USE_YN = NVL(#{useYn}, 'N') 
+			 WHERE GNR_ID = #{gnrId}
+			
+	</update>
+	
+	<update id="deleteOneGnrByGnrId"
+			parameterType="_int">
+			UPDATE GNR
+			   SET DEL_YN = 'Y'
+			 WHERE GNR_ID = #{_parameter}
+			
+	
+	</update>
+</mapper>
